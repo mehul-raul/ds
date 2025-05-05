@@ -1,0 +1,88 @@
+# Import all required Python Libraries
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn import preprocessing
+from sklearn.preprocessing import MinMaxScaler
+
+# Step 1: Load dataset
+# Dataset Source: https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv
+df = pd.read_csv("https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv")
+
+# Step 2: Display first few rows of the dataset
+print("First 5 Rows of Dataset:")
+print(df.head())
+
+# Step 3: Dataset information
+print("\nDataset Info:")
+df.info()
+
+# Step 4: Checking for missing values in each column
+print("\nMissing Values in Dataset:")
+print(df.isnull().sum())
+
+# Step 5: Statistical Summary of dataset (all columns)
+print("\nStatistical Summary:")
+print(df.describe(include='all'))
+
+# Step 6: Check data types
+print("\nData Types of Each Column:")
+print(df.dtypes)
+
+# Step 7: Convert 'species' column to categorical data type
+df['species'] = df['species'].astype('category')
+print("\nData Types After Conversion:")
+print(df.dtypes)
+
+# Step 8: Shape of dataset (rows, columns)
+print("\nShape of the DataFrame:")
+print(df.shape)
+
+# Step 9: Min-Max Normalization for numerical columns
+scaler = MinMaxScaler()
+numerical_cols = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
+df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
+print("\nNormalized Numerical Columns:")
+print(df[numerical_cols].head())
+
+# Step 10: Label Encoding of categorical variable 'species'
+label_encoder = preprocessing.LabelEncoder()
+df['species_encoded'] = label_encoder.fit_transform(df['species'])
+print("\nLabel Encoded 'species' Column:")
+print(df[['species', 'species_encoded']].head())
+
+# Step 11: One-Hot Encoding of 'species' column
+one_hot_encoded = pd.get_dummies(df['species'], prefix='species')
+df = pd.concat([df, one_hot_encoded], axis=1)
+print("\nOne-Hot Encoded Species Columns:")
+print(df.head())
+
+# Step 12: Visualize dataset relationships using pairplot
+print("\nGenerating pairplot for visual comparison...")
+sns.pairplot(df, hue='species')
+plt.show()
+Q1: What is Data Wrangling?
+➡️ It is the process of cleaning, transforming, and preparing raw data into a usable format for analysis.
+
+Q2: What does .isnull() do?
+➡️ It checks for missing values (null/NaN) in a DataFrame.
+
+Q3: What is normalization and why is it important?
+➡️ Normalization scales features to a standard range (like 0–1) for uniformity, especially useful in machine learning models.
+
+Q4: Difference between Label Encoding and One-Hot Encoding?
+➡️ Label Encoding assigns each category a number (0, 1, 2, …).
+➡️ One-Hot Encoding creates separate columns for each category, filled with binary 0/1 values.
+
+Q5: What libraries are used for data preprocessing?
+➡️ Pandas (for dataframes), NumPy (for numerical operations), Scikit-learn (for preprocessing), Matplotlib and Seaborn (for visualization).
+
+Q6: How do you check datatypes of columns in a dataset?
+➡️ Using df.dtypes
+
+Q7: What’s the output of df.shape?
+➡️ It gives the number of rows and columns in the DataFrame as a tuple (rows, columns).
+
+Q8: What is the difference between head() and tail()?
+➡️ head() shows the first 5 rows; tail() shows the last 5 rows of the DataFrame.

@@ -1,0 +1,76 @@
+# Experiment 6: Naïve Bayes Classification
+# Aim:
+# 1. Implement Simple Naïve Bayes classification algorithm using Python on iris.csv dataset.
+# 2. Compute Confusion matrix to find TP, FP, TN, FN, Accuracy, Error rate, Precision, Recall.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
+
+# Step 1: Load the dataset
+df = pd.read_csv("iris.csv")  # iris.csv should have columns like: sepal_length, sepal_width, etc.
+
+# Step 2: Split into features and target
+X = df.drop('species', axis=1)   # Features (sepal and petal measurements)
+y = df['species']                # Target (species: setosa, versicolor, virginica)
+
+# Step 3: Split the data into training and testing sets (70% train, 30% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Step 4: Create and train the Naïve Bayes model
+model = GaussianNB()             # GaussianNB is used for continuous numerical features
+model.fit(X_train, y_train)      # Model learns from training data
+
+# Step 5: Make predictions on the test set
+y_pred = model.predict(X_test)   # Predict species for unseen data
+
+# Step 6: Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:\n", cm)
+
+# Step 7: Accuracy, Precision, Recall, Error Rate
+accuracy = accuracy_score(y_test, y_pred)                   # Correct predictions / Total predictions
+precision = precision_score(y_test, y_pred, average='macro')# Avg. of precision across all 3 species
+recall = recall_score(y_test, y_pred, average='macro')      # Avg. of recall across all species
+error_rate = 1 - accuracy                                   # Error Rate = 1 - Accuracy
+
+# Step 8: Print Results
+print("\nAccuracy:", round(accuracy, 2))
+print("Error Rate:", round(error_rate, 2))
+print("Precision:", round(precision, 2))
+print("Recall:", round(recall, 2))
+
+# --------------------------------------------
+# VIVA QUESTIONS & ANSWERS (in comments)
+# --------------------------------------------
+
+# Q1: What is Naïve Bayes?
+# A: A classification algorithm based on Bayes' Theorem assuming all features are independent.
+
+# Q2: What does 'naïve' mean in Naïve Bayes?
+# A: It assumes all features are independent, which is a strong and naive assumption.
+
+# Q3: Why GaussianNB is used?
+# A: It assumes input features are continuous and normally distributed — perfect for iris dataset.
+
+# Q4: What is a Confusion Matrix?
+# A: A table showing correct and incorrect predictions for each class (e.g., Setosa, Versicolor).
+
+# Q5: Define TP, FP, FN, TN.
+# A: True Positive, False Positive, False Negative, True Negative — mainly for binary classes.
+
+# Q6: What is Accuracy?
+# A: Ratio of correctly predicted observations to total observations.
+
+# Q7: What is Precision?
+# A: Ratio of correctly predicted positive observations to total predicted positives.
+
+# Q8: What is Recall?
+# A: Ratio of correctly predicted positive observations to all actual positives.
+
+# Q9: What is Error Rate?
+# A: The fraction of total predictions that are incorrect → (1 - Accuracy).
+
+# Q10: Why split data into training and testing sets?
+# A: To evaluate model performance on unseen data (generalization).

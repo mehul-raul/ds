@@ -1,0 +1,29 @@
+# Import necessary libraries
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load Titanic dataset from Seaborn
+data = sns.load_dataset("titanic")
+
+# Compute the correlation matrix for numerical features in the dataset
+corr = data.corr(numeric_only=True)  # This only includes numerical columns (e.g., age, fare, etc.)
+print(corr)  # Print the correlation matrix for inspection
+
+# 1. Heatmap of correlation matrix
+# A heatmap visually represents the correlation matrix, where each cell shows the correlation between two features.
+sns.heatmap(corr, annot=True, cmap='coolwarm')  # annot=True displays the correlation values inside the cells.
+plt.title("Correlation Matrix Heatmap")  # Title for the heatmap
+plt.show()  # Display the heatmap
+
+# ---- Explanation of Viva Questions and Comments ----
+# Q: What is correlation?
+# A: Correlation measures the relationship between two variables. It indicates how strongly one variable changes when the other changes. It ranges from -1 (perfect negative correlation) to +1 (perfect positive correlation), with 0 indicating no relationship.
+
+# Q: What does heatmap do?
+# A: A heatmap is a data visualization technique that shows the magnitude of values in a matrix, using colors. In this case, it shows how strongly different features (e.g., age, fare, class) are correlated with each other.
+
+# Q: What is cmap?
+# A: 'cmap' refers to the color map used to color the cells of the heatmap. The 'coolwarm' color map uses colors that range from cool (blue) to warm (red), where blue represents negative correlations and red represents positive correlations.
+
+# Q: What does annot=True mean?
+# A: annot=True means that the actual numerical correlation values will be displayed inside each cell of the heatmap, making it easier to understand the strength of the correlation.

@@ -1,0 +1,36 @@
+/* ###############################################################
+ * HOW TO RUN THIS SCALA + SPARK CODE:
+ * ###############################################################
+ * 1. Make sure Apache Spark is installed and added to PATH.
+ * 2. Save this file as WordCount.scala
+ * 3. Prepare an input.txt file with some text in the same directory.
+ * 4. Compile and run using:
+ *      spark-submit --class WordCount WordCount.scala
+ *    OR if using spark-shell, paste code directly (remove main method)
+ * ###############################################################
+ */
+
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+
+object WordCount {
+  def main(args: Array[String]): Unit = {
+    // Initialize Spark
+    val conf = new SparkConf().setAppName("WordCount").setMaster("local[*]")
+    val sc = new SparkContext(conf)
+
+    // Read input text file
+    val input = sc.textFile("input.txt")
+
+    // Perform word count
+    val counts = input.flatMap(line => line.split(" "))
+                      .map(word => (word, 1))
+                      .reduceByKey(_ + _)
+
+    // Save the result
+    counts.saveAsTextFile("output")
+
+    // Stop the context
+    sc.stop()
+  }
+}

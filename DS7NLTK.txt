@@ -1,0 +1,84 @@
+# Experiment 7: Text Analytics
+# Aim:
+# 1. Apply Text Preprocessing: Tokenization, POS Tagging, Stopword Removal, Stemming, Lemmatization.
+# 2. Represent the document using TF (Term Frequency) and IDF (Inverse Document Frequency).
+
+# Import necessary libraries
+import nltk
+from nltk.tokenize import word_tokenize  # For breaking text into words
+from nltk.corpus import stopwords        # For getting a list of common stopwords
+from nltk.stem import PorterStemmer      # For reducing words to their root form
+from nltk.stem import WordNetLemmatizer  # For lemmatizing words to dictionary base form
+from nltk import pos_tag                 # For identifying parts of speech
+from sklearn.feature_extraction.text import TfidfVectorizer  # For calculating TF-IDF
+
+# Download necessary resources (only required once)
+nltk.download('punkt')                          # Tokenizer
+nltk.download('stopwords')                      # Stopword list
+nltk.download('wordnet')                        # WordNet lemmatizer dictionary
+nltk.download('averaged_perceptron_tagger')     # POS tagger
+
+# Step 1: Define a sample text document
+text = "Text Analytics is the process of extracting meaningful information from text data."
+
+# Step 2: Tokenization – breaking the text into individual words (tokens)
+tokens = word_tokenize(text)
+print("\nTokens (individual words):", tokens)
+
+# Step 3: Part-of-Speech (POS) Tagging – tagging each word with its grammatical role
+pos_tags = pos_tag(tokens)
+print("\nPOS Tags (e.g., noun, verb):", pos_tags)
+
+# Step 4: Stopword Removal – filtering out common words that add little value to meaning
+stop_words = set(stopwords.words("english"))
+filtered_tokens = [word for word in tokens if word.lower() not in stop_words]
+print("\nAfter Stopword Removal (important words only):", filtered_tokens)
+
+# Step 5: Stemming – reducing words to their root (may not always be a real word)
+stemmer = PorterStemmer()
+stemmed_words = [stemmer.stem(word) for word in filtered_tokens]
+print("\nStemmed Words (rough root form):", stemmed_words)
+
+# Step 6: Lemmatization – reducing words to their dictionary form (more accurate than stemming)
+lemmatizer = WordNetLemmatizer()
+lemmatized_words = [lemmatizer.lemmatize(word) for word in filtered_tokens]
+print("\nLemmatized Words (proper root form):", lemmatized_words)
+
+# Step 7: TF-IDF Calculation
+# TF = how often a word occurs in a document
+# IDF = how rare a word is across all documents
+# TF-IDF = importance of a word in a specific document relative to others
+
+documents = [text]  # A list of documents (we only have 1 here, but more can be added)
+tfidf = TfidfVectorizer()  # Create the TF-IDF transformer
+tfidf_matrix = tfidf.fit_transform(documents)  # Apply it to the documents
+print("\nTF-IDF Matrix (numerical importance of words):\n", tfidf_matrix.toarray())
+print("\nTF-IDF Vocabulary (word to index mapping):\n", tfidf.vocabulary_)
+
+# -------------------------------
+# ✅ VIVA QUESTIONS (in comments)
+# -------------------------------
+
+# Q1: What is Tokenization?
+# A: It breaks text into smaller pieces like words or sentences. For example: "Text Analytics" -> ["Text", "Analytics"]
+
+# Q2: What is POS Tagging?
+# A: It assigns parts of speech like noun, verb, etc., to each token to understand sentence structure.
+
+# Q3: What is Stopword Removal?
+# A: It removes commonly used words (like "is", "the") that don’t add much meaning to analysis.
+
+# Q4: What is Stemming?
+# A: It cuts words down to their base or root (e.g., "running" becomes "run"), but might not be valid words.
+
+# Q5: What is Lemmatization?
+# A: It transforms words into their dictionary base forms using proper context (e.g., "running" → "run").
+
+# Q6: Stemming vs Lemmatization?
+# A: Stemming is rule-based and rough. Lemmatization is dictionary-based and more accurate.
+
+# Q7: What is TF-IDF?
+# A: It weighs the importance of words in a document relative to all documents in the corpus.
+
+# Q8: Why use TF-IDF?
+# A: To convert text into numbers that reflect word importance for use in machine learning models.

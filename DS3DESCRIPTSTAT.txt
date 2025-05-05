@@ -1,0 +1,49 @@
+# Experiment: Descriptive Statistics - Measures of Central Tendency and Variability
+
+import pandas as pd
+
+# Load the dataset
+df = pd.read_csv("iris.csv")
+
+# --- Task 1: Summary Statistics Grouped by Species ---
+
+# Group by species and calculate summary statistics
+grouped_stats = df.groupby('species').agg(['mean', 'median', 'min', 'max', 'std'])
+
+print("Summary Statistics (Grouped by Species):")
+print(grouped_stats)
+
+# --- Task 2: Statistics for Each Species ---
+
+# Create a function to print stats for each species
+def print_species_stats(species_name):
+    print(f"\n--- Statistics for {species_name} ---")
+    species_data = df[df['species'] == species_name]
+    print(species_data.describe())  # Includes count, mean, std, min, 25%, 50%, 75%, max
+
+# Call for each species
+print_species_stats('Iris-setosa')
+print_species_stats('Iris-versicolor')
+print_species_stats('Iris-virginica')
+
+# --- Viva Questions and Answers (as comments) ---
+
+# Q1: What is the purpose of using groupby in pandas?
+# A1: It helps to group data based on a category (like species) to compute summary statistics for each group.
+
+# Q2: What is the difference between mean and median?
+# A2: Mean is the average of values; median is the middle value when data is sorted. Median is better when data has outliers.
+
+# Q3: What does std() calculate?
+# A3: Standard deviation — it tells how spread out the data is from the mean.
+
+# Q4: Why do we use describe()?
+# A4: describe() gives basic statistics like count, mean, std, min, and percentiles for quick summary.
+
+# Q5: What are percentiles?
+# A5: Percentiles divide data into 100 equal parts. For example, 25% of values are below the 25th percentile.
+
+# Q6: Why group numeric data by categorical columns?
+# A6: To compare statistics across different categories (e.g., comparing flower species measurements).
+
+# Done!

@@ -1,0 +1,39 @@
+-- ###########################################################
+-- # HOW TO LAUNCH IMPALA SHELL:
+-- ###########################################################
+-- 1. Make sure Hadoop and Hive are running.
+-- 2. Start Impala services:
+--    - impala-catalog
+--    - impala-statestore
+--    - impalad
+-- 3. Open terminal and run:
+--      impala-shell
+-- 4. You are now inside the Impala CLI. Run the SQL commands below.
+-- ###########################################################
+
+-- Create a new database
+CREATE DATABASE student_db;
+
+-- Switch to the database
+USE student_db;
+
+-- Create a table for students
+CREATE TABLE students (
+    id INT,
+    name STRING,
+    marks INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;
+
+-- Insert sample data
+INSERT INTO students VALUES (1, 'Alice', 85);
+INSERT INTO students VALUES (2, 'Bob', 90);
+INSERT INTO students VALUES (3, 'Charlie', 78);
+
+-- Retrieve all records
+SELECT * FROM students;
+
+-- Calculate average marks
+SELECT AVG(marks) AS avg_marks FROM students;

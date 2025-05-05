@@ -1,0 +1,53 @@
+# Experiment 2: Data Wrangling II
+# Aim: Perform missing value handling, outlier detection, and data transformation
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+from scipy import stats
+
+# Load the dataset (assume it's placed in the same directory or provide full path)
+df = pd.read_csv("StudentsPerformanceTest1.csv")
+
+# --- Missing Values ---
+
+# Check for null values
+print(df.isnull().sum())
+
+# Fill missing values with mean for numeric columns
+df['Math_Score'] = df['Math_Score'].fillna(df['Math_Score'].mean())
+df['Reading_Score'] = df['Reading_Score'].fillna(df['Reading_Score'].mean())
+
+# --- Outlier Detection (Using Z-score) ---
+z_scores = np.abs(stats.zscore(df[['Math_Score', 'Reading_Score', 'Writing_Score']]))
+df_no_outliers = df[(z_scores < 3).all(axis=1)]
+
+# --- Data Transformation: Convert Join Year to Duration ---
+df_no_outliers['Duration'] = 2025 - df_no_outliers['Club_Join_Date']
+
+# --- Log Transformation to reduce skewness ---
+df_no_outliers['log_math'] = np.log10(df_no_outliers['Math_Score'])
+
+# --- Encoding Categorical Variable ---
+le = LabelEncoder()
+df_no_outliers['Gender'] = le.fit_transform(df_no_outliers['Gender'])
+
+# Output cleaned data
+print(df_no_outliers.head())
+
+# --- Viva Questions (as comments) ---
+# Q1: Why use Z-Score for outlier detection?
+# A: It helps find data points that are unusually far from the mean.
+
+# Q2: What is log transformation?
+# A: It reduces skewness and makes data more normally distributed.
+
+# Q3: What is the need for handling missing data?
+# A: Missing data can mislead analysis and models.
+
+# Q4: Why encode categorical variables?
+# A: ML models need numeric input, not strings.
+
+# Q5: Why drop outliers?
+# A: Outliers can distort statistics and model performance.

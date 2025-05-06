@@ -220,3 +220,27 @@ One-Hot Encoded:
 Measu cent ten – mean mode median(measure of where center of data lie)
 Measu pf dispersion – how data is spread , vari = how far data from mean sum (x – mean)^2 / N ,STD DEV IS DIST FROM MEAN
 
+Histogram	Frequency distribution of values	                  Feature distribution
+Box Plot	Median, IQR, outliers	                             Comparing feature spread
+Bar Plot	Categories vs count/value	                       Categorical data
+Scatter Plot	Points in 2D space	                             Relationship between two variables
+Heatmap	Matrix of values as color grid	                Correlation matrix, confusion matrix
+Line Plot	Value change over time (x-axis = time)	           Time series
+
+Violin plot •  Narrow top, wide bottom: Most values are low — right-skewed
+•  🏔️ Two bulges: Bimodal distribution
+•  🪞 Symmetrical shape: Balanced data
+•  ↘️ Long tail on one side: Skewness in that direction
+Skewness- if curve bend to right –ve skew and left +ve skew prak is mode the median then mean
+
+Quartiles divide sorted data into 4 equal parts:
+Name	Symbol	Description
+Q1	1st quartile	25% of the data is below this
+Q2	2nd quartile (Median)	50% of the data is below this
+Q3	3rd quartile	75% of the data is below this
+So,
+•	25% of values < Q1
+•	50% of values < Q2 (Median)
+•	75% of values < Q3
+IQR = q3 – q1
+
